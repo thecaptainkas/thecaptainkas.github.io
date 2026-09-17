@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Standard Scientific Calculator</title>
+    <style>
+        body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f4f4f9; }
+        .calc-container { width: 320px; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        #screen { width: 100%; height: 50px; background: #eef; border: none; font-size: 24px; text-align: right; padding: 5px; box-sizing: border-box; margin-bottom: 20px; border-radius: 4px; }
+        .buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        button { padding: 15px; font-size: 18px; border: none; background: #e0e0e0; border-radius: 4px; cursor: pointer; }
+        button.op { background: #ff9f0a; color: white; }
+        button.eq { background: #2ec4b6; color: white; grid-column: span 2; }
+    </style>
+</head>
+<body>
+
+<div class="calc-container">
+    <input type="text" id="screen" readonly value="0">
+    <div class="buttons">
+        <button onclick="clearScreen()" style="background:#e71d36; color:white;">C</button>
+        <button onclick="press('(')">(</button>
+        <button onclick="press(')')">)</button>
+        <button class="op" onclick="press('/')">/</button>
+        <button onclick="press('7')">7</button>
+        <button onclick="press('8')">8</button>
+        <button onclick="press('9')">9</button>
+        <button class="op" onclick="press('*')">*</button>
+        <button onclick="press('4')">4</button>
+        <button onclick="press('5')">5</button>
+        <button onclick="press('6')">6</button>
+        <button class="op" onclick="press('-')">-</button>
+        <button onclick="press('1')">1</button>
+        <button onclick="press('2')">2</button>
+        <button onclick="press('3')">3</button>
+        <button class="op" onclick="press('+')">+</button>
+        <button onclick="press('0')">0</button>
+        <button onclick="press('.')">.</button>
+        <button class="eq" onclick="calculate()">=</button>
+    </div>
+</div>
+
+<script>
+    let screen = document.getElementById('screen');
+
+    function press(val) {
+        if (screen.value === '0') screen.value = val;
+        else screen.value += val;
+    }
+
+    function clearScreen() {
+        screen.value = '0';
+    }
+
+    function calculate() {
+        // SECRET TRIGGER: Typing 777 and pressing "=" launches GeoFS
+        if (screen.value === '777') {
+            launchGeoFS();
+            clearScreen();
+            return;
+        }
+        
+        try {
+            screen.value = eval(screen.value);
+        } catch (e) {
+            screen.value = 'Error';
+        }
+    }
+
+    function launchGeoFS() {
+        var win = window.open('about:blank', '_blank');
+        if (!win) {
+            alert('Pop-up blocked! Please enable pop-ups in your address bar.');
+            return;
+        }
+        var doc = win.document;
+        var iframe = doc.createElement('iframe');
+        iframe.src = 'https://geo-fs.com';
+        iframe.style.width = '100vw';
+        iframe.style.height = '100vh';
+        iframe.style.border = 'none';
+        iframe.style.position = 'fixed';
+        iframe.style.top = '0';
+        iframe.style.left = '0';
+        doc.body.style.margin = '0';
+        doc.body.style.padding = '0';
+        doc.body.style.overflow = 'hidden';
+        doc.body.appendChild(iframe);
+    }
+</script>
+
+</body>
+</html>
